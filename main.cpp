@@ -1,4 +1,5 @@
 
+
 #include <tinyxml2.h>
 #include <string>
 #include <iostream>
@@ -19,7 +20,6 @@ bool NameExist(std::vector<std::string> origNames, std::string name)
 }
 
 
-
 int main()
 {
   std::cout << "XML Extractor launched" << '\n';
@@ -37,13 +37,16 @@ int main()
   tinyxml2::XMLError eResultOrig = docOrig.LoadFile(pathToXMLOrig.c_str());
   tinyxml2::XMLError eResult = doc.LoadFile(pathToXMLToExtract.c_str());
 
-  std::cout << "Files loaded" << '\n';
 
+  std::cout << "Files loaded" << '\n';
   //XMLCheckResult(eResultOrig);
   //tinyxml2::XMLCheckResult(eResult);
 
   tinyxml2::XMLNode * pRootOrig = docOrig.FirstChild();
   tinyxml2::XMLNode * pRoot = doc.FirstChild();
+
+  tinyxml2::XMLNode * pRootOrigTypes = pRootOrig->NextSibling();
+  tinyxml2::XMLNode * pRootTypes = pRoot->NextSibling();
 
   std::cout << "Root loaded" << '\n';
 
@@ -55,7 +58,7 @@ int main()
   std::vector<std::string> origNames;
   std::vector<std::string> names;
 
-  for(tinyxml2::XMLElement * e = pRootOrig->FirstChildElement("type"); e != NULL; e = e->NextSiblingElement("type"))
+  for(tinyxml2::XMLElement * e = pRootOrigTypes->FirstChildElement("type"); e != NULL; e = e->NextSiblingElement("type"))
   {
       std::string name = e->Attribute("name");
       std::cout << name << '\n';
@@ -63,7 +66,7 @@ int main()
   }
 
 
-  for(tinyxml2::XMLElement * e1 = pRoot->FirstChildElement("type"); e1 != NULL; e1 = e1->NextSiblingElement("type"))
+  for(tinyxml2::XMLElement * e1 = pRootTypes->FirstChildElement("type"); e1 != NULL; e1 = e1->NextSiblingElement("type"))
   {
       std::string name = e1->Attribute("name");
       //std::cout << name << '\n';
